@@ -42,7 +42,7 @@ def modificarMesa(me_id):
     return jsonify(json)
 
 @app.route("/mesas/<string:me_id>",methods=['DELETE'])
-def eliminarEstudiante(me_id):
+def eliminarMesa(me_id):
     json = miMesaController.delete(me_id)
     return jsonify(json)
 
@@ -115,7 +115,7 @@ def getResultados():
     return jsonify(json)
 
 @app.route("/resultados",methods=['POST'])
-def crearResultados():
+def crearResultado():
     data = request.get_json()
     json = miResultadosController.create(data)
     return jsonify(json)
@@ -126,19 +126,49 @@ def getResultado(re_id):
     return jsonify(json)
 
 @app.route("/resultados/<string:re_id>",methods=['PUT'])
-def modificarResultados(re_id):
+def modificarResultado(re_id):
     data = request.get_json()
     json = miResultadosController.update(re_id,data)
     return jsonify(json)
 
 @app.route("/resultados/<string:re_id>",methods=['DELETE'])
-def eliminarResultados(re_id):
+def eliminarResultado(re_id):
     json = miResultadosController.delete(re_id)
     return jsonify(json)
 
-@app.route("/resultados/<string:re_id>/mesa/<string:me_id>",methods=['PUT'])
-def asignarMesaResultados(re_id, me_id):
+@app.route("/resultado/<string:re_id>/mesa/<string:me_id>",methods=['PUT'])
+def asignarMesaResultado(re_id, me_id):
     json = miResultadosController.asignarMesa(re_id, me_id)
+    return jsonify(json)
+
+from controllers.votacionController import VotacionController
+miVotacionController = VotacionController()
+
+@app.route("/votaciones",methods=['GET'])
+def getVotaciones():
+    json = miVotacionController.index()
+    return jsonify(json)
+
+@app.route("/votaciones/<string:id>",methods=['GET'])
+def getVotacion(vo_id):
+    json = miVotacionController.show(vo_id)
+    return jsonify(json)
+
+@app.route("/votaciones/candidato/<string:ca_id>/resultado/<string:re_id>",methods=['POST'])
+def crearVotacion(ca_id,re_id):
+    data = request.get_json()
+    json = miVotacionController.create(data,ca_id,re_id)
+    return jsonify(json)
+
+@app.route("/votaciones/<string:vo_id>/candidato/<string:ca_id>/resultado/<string:re_id>",methods=['PUT'])
+def modificarVotacion(vo_id,ca_id,re_id):
+    data = request.get_json()
+    json = miVotacionController.update(vo_id,data,ca_id,re_id)
+    return jsonify(json)
+
+@app.route("/votaciones/<string:vo_id>",methods=['DELETE'])
+def eliminarVotacion(vo_id):
+    json = miVotacionController.delete(vo_id)
     return jsonify(json)
 
 def loadFileConfig():
