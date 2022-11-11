@@ -9,6 +9,7 @@ import certifi
 
 app=Flask(__name__)
 cors = CORS(app)
+
 from controllers.mesaController import MesaController
 miMesaController = MesaController()
 
@@ -103,6 +104,41 @@ def modificarPartidoPolitico(papo_id):
 @app.route("/partidos_politicos/<string:papo_id>",methods=['DELETE'])
 def eliminarPartidoPolitico(papo_id):
     json = miPartidoPoliticoController.delete(papo_id)
+    return jsonify(json)
+
+from controllers.resultadosController import ResultadosController
+miResultadosController = ResultadosController()
+
+@app.route("/resultados",methods=['GET'])
+def getResultados():
+    json = miResultadosController.index()
+    return jsonify(json)
+
+@app.route("/resultados",methods=['POST'])
+def crearResultados():
+    data = request.get_json()
+    json = miResultadosController.create(data)
+    return jsonify(json)
+
+@app.route("/resultados/<string:re_id>",methods=['GET'])
+def getResultado(re_id):
+    json = miResultadosController.show(re_id)
+    return jsonify(json)
+
+@app.route("/resultados/<string:re_id>",methods=['PUT'])
+def modificarResultados(re_id):
+    data = request.get_json()
+    json = miResultadosController.update(re_id,data)
+    return jsonify(json)
+
+@app.route("/resultados/<string:re_id>",methods=['DELETE'])
+def eliminarResultados(re_id):
+    json = miResultadosController.delete(re_id)
+    return jsonify(json)
+
+@app.route("/resultados/<string:re_id>/mesa/<string:me_id>",methods=['PUT'])
+def asignarMesaResultados(re_id, me_id):
+    json = miResultadosController.asignarMesa(re_id, me_id)
     return jsonify(json)
 
 def loadFileConfig():
