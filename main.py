@@ -160,15 +160,27 @@ def getVotacion(vo_id):
     return jsonify(json)
 
 @app.route("/votaciones/candidato/<string:ca_id>/resultado/<string:re_id>",methods=['POST'])
-def crearVotacion(ca_id,re_id):
+def crearVotacionCandidato(ca_id,re_id):
     data = request.get_json()
-    json = miVotacionController.create(data,ca_id,re_id)
+    json = miVotacionController.createVC(data,ca_id,re_id)
+    return jsonify(json)
+
+@app.route("/votaciones/partido_politico/<string:papo_id>/resultado/<string:re_id>",methods=['POST'])
+def crearVotacionPartidoPolitico(papo_id,re_id):
+    data = request.get_json()
+    json = miVotacionController.createVPP(data,papo_id,re_id)
     return jsonify(json)
 
 @app.route("/votaciones/<string:vo_id>/candidato/<string:ca_id>/resultado/<string:re_id>",methods=['PUT'])
-def modificarVotacion(vo_id,ca_id,re_id):
+def modificarVotacionCandidato(vo_id,ca_id,re_id):
     data = request.get_json()
-    json = miVotacionController.update(vo_id,data,ca_id,re_id)
+    json = miVotacionController.updateVC(vo_id,data,ca_id,re_id)
+    return jsonify(json)
+
+@app.route("/votaciones/<string:vo_id>/partido_politico/<string:papo_id>/resultado/<string:re_id>",methods=['PUT'])
+def modificarVotacionCandidato(vo_id,papo_id,re_id):
+    data = request.get_json()
+    json = miVotacionController.updateVPP(vo_id,data,papo_id,re_id)
     return jsonify(json)
 
 @app.route("/votaciones/<string:vo_id>",methods=['DELETE'])
