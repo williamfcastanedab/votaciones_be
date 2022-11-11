@@ -76,6 +76,11 @@ def eliminarCandidato(ca_id):
     json = miCandidatoController.delete(ca_id)
     return jsonify(json)
 
+@app.route("/candidato/<string:ca_id>/partido_politico/<string:papo_id>",methods=['PUT'])
+def asignarPartidoPoliticoCandidato(ca_id, papo_id):
+    json = miCandidatoController.asignarPartidoPolitico(ca_id, papo_id)
+    return jsonify(json)
+
 from controllers.partidoPoliticoController import PartidoPoliticoController
 miPartidoPoliticoController = PartidoPoliticoController()
 

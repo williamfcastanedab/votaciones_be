@@ -1,9 +1,12 @@
 from repositories.candidatoRepository import CandidatoRepository
 from models.candidato import Candidato
+from repositories.partidoPoliticoRepository import PartidoPoliticoRepository
+from models.partidoPolitico import PartidoPolitico
 
 class CandidatoController():
     def __init__(self):
         self.rC = CandidatoRepository()
+        self.rPP = PartidoPoliticoRepository()
 
     def index(self):
         return self.rC.findAll()
@@ -27,3 +30,9 @@ class CandidatoController():
 
     def delete(self,ca_id):
         return self.rC.delete(ca_id)
+
+    def asignarPartidoPolitico(self,ca_id,papo_id):
+        candidatoActual = Candidato(self.rC.findById(ca_id))
+        partidoPoliticoActual = PartidoPolitico(self.rPP.findById(papo_id))
+        candidatoActual.partidoPolitico = partidoPoliticoActual
+        return self.rC.save(candidatoActual)
